@@ -1,7 +1,12 @@
-// /** 
-//  * @module index
-//  */
-// export * from './build';
-// export * from './connect';
-// export * from './persistence';
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @module index
+ */
+__export(require("./build"));
+__export(require("./connect"));
+__export(require("./persistence"));
 //# sourceMappingURL=index.js.map

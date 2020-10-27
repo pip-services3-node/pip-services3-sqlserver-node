@@ -1,6 +1,6 @@
-// /** 
-//  * @module index
-//  */
-// export * from './build';
-// export * from './connect';
-// export * from './persistence';
+/** 
+ * @module index
+ */
+export * from './build';
+export * from './connect';
+export * from './persistence';

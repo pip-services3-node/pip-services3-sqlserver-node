@@ -213,7 +213,7 @@ class IdentifiableSqlServerPersistence extends SqlServerPersistence_1.SqlServerP
                 ? this.convertToPublic(result.recordset[0]) : null;
             if (newItem != null || err != null) {
                 if (!err)
-                    this._logger.trace(correlationId, "Set in %s with id = %s", this.quoteIdentifier(this._tableName), item.id);
+                    this._logger.trace(correlationId, "Set in %s with id = %s", this._tableName, item.id);
                 if (callback)
                     callback(err, newItem);
                 return;
@@ -224,7 +224,7 @@ class IdentifiableSqlServerPersistence extends SqlServerPersistence_1.SqlServerP
             request.query(query, (err, result) => {
                 err = err || null;
                 if (!err)
-                    this._logger.trace(correlationId, "Set in %s with id = %s", this.quoteIdentifier(this._tableName), item.id);
+                    this._logger.trace(correlationId, "Set in %s with id = %s", this._tableName, item.id);
                 let newItem = result && result.recordset && result.recordset.length == 1
                     ? this.convertToPublic(result.recordset[0]) : null;
                 if (callback)

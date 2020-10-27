@@ -1,6 +1,6 @@
-// /** 
-//  * @module build 
-//  * @preferred
-//  * 
-//  */
-// export { DefaultSqlServerFactory } from './DefaultSqlServerFactory';
+/** 
+ * @module build 
+ * @preferred
+ * 
+ */
+export { DefaultSqlServerFactory } from './DefaultSqlServerFactory';

@@ -97,7 +97,7 @@ import { SqlServerPersistence } from './SqlServerPersistence';
  *     });
  */
 export class IdentifiableSqlServerPersistence<T extends IIdentifiable<K>, K> extends SqlServerPersistence<T>
-    /*implements IWriter<T, K>, IGetter<T, K>, ISetter<T>*/ {
+    implements IWriter<T, K>, IGetter<T, K>, ISetter<T> {
 
     /**
      * Creates a new instance of the persistence component.
@@ -246,7 +246,7 @@ export class IdentifiableSqlServerPersistence<T extends IIdentifiable<K>, K> ext
 
             if (newItem != null || err != null) {
                 if (!err)
-                    this._logger.trace(correlationId, "Set in %s with id = %s", this.quoteIdentifier(this._tableName), item.id);
+                    this._logger.trace(correlationId, "Set in %s with id = %s", this._tableName, item.id);
 
                 if (callback) callback(err, newItem);
                 
@@ -261,7 +261,7 @@ export class IdentifiableSqlServerPersistence<T extends IIdentifiable<K>, K> ext
                 err = err || null;
 
                 if (!err)
-                    this._logger.trace(correlationId, "Set in %s with id = %s", this.quoteIdentifier(this._tableName), item.id);
+                    this._logger.trace(correlationId, "Set in %s with id = %s", this._tableName, item.id);
             
                 let newItem = result && result.recordset && result.recordset.length == 1
                     ? this.convertToPublic(result.recordset[0]) : null;

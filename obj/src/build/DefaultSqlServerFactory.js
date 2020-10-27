@@ -1,22 +1,25 @@
-// /** @module build */
-// import { Factory } from 'pip-services3-components-node';
-// import { Descriptor } from 'pip-services3-commons-node';
-// import { SqlServerConnection } from '../persistence/SqlServerConnection';
-// /**
-//  * Creates SqlServer components by their descriptors.
-//  * 
-//  * @see [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/classes/build.factory.html Factory]]
-//  * @see [[SqlServerConnection]]
-//  */
-// export class DefaultSqlServerFactory extends Factory {
-// 	public static readonly Descriptor: Descriptor = new Descriptor("pip-services", "factory", "sqlserver", "default", "1.0");
-//     public static readonly SqlServerConnectionDescriptor: Descriptor = new Descriptor("pip-services", "connection", "sqlserver", "*", "1.0");
-//     /**
-// 	 * Create a new instance of the factory.
-// 	 */
-//     public constructor() {
-//         super();
-//         this.registerAsType(DefaultSqlServerFactory.SqlServerConnectionDescriptor, SqlServerConnection);
-//     }
-// }
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/** @module build */
+const pip_services3_components_node_1 = require("pip-services3-components-node");
+const pip_services3_commons_node_1 = require("pip-services3-commons-node");
+const SqlServerConnection_1 = require("../persistence/SqlServerConnection");
+/**
+ * Creates SqlServer components by their descriptors.
+ *
+ * @see [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/classes/build.factory.html Factory]]
+ * @see [[SqlServerConnection]]
+ */
+class DefaultSqlServerFactory extends pip_services3_components_node_1.Factory {
+    /**
+     * Create a new instance of the factory.
+     */
+    constructor() {
+        super();
+        this.registerAsType(DefaultSqlServerFactory.SqlServerConnectionDescriptor, SqlServerConnection_1.SqlServerConnection);
+    }
+}
+exports.DefaultSqlServerFactory = DefaultSqlServerFactory;
+DefaultSqlServerFactory.Descriptor = new pip_services3_commons_node_1.Descriptor("pip-services", "factory", "sqlserver", "default", "1.0");
+DefaultSqlServerFactory.SqlServerConnectionDescriptor = new pip_services3_commons_node_1.Descriptor("pip-services", "connection", "sqlserver", "*", "1.0");
 //# sourceMappingURL=DefaultSqlServerFactory.js.map

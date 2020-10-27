@@ -1,5 +1,8 @@
 import { AnyValueMap } from 'pip-services3-commons-node';
 import { IIdentifiable } from 'pip-services3-commons-node';
+import { IWriter } from 'pip-services3-data-node';
+import { IGetter } from 'pip-services3-data-node';
+import { ISetter } from 'pip-services3-data-node';
 import { SqlServerPersistence } from './SqlServerPersistence';
 /**
  * Abstract persistence component that stores data in SQLServer
@@ -85,7 +88,7 @@ import { SqlServerPersistence } from './SqlServerPersistence';
  *         )
  *     });
  */
-export declare class IdentifiableSqlServerPersistence<T extends IIdentifiable<K>, K> extends SqlServerPersistence<T> {
+export declare class IdentifiableSqlServerPersistence<T extends IIdentifiable<K>, K> extends SqlServerPersistence<T> implements IWriter<T, K>, IGetter<T, K>, ISetter<T> {
     /**
      * Creates a new instance of the persistence component.
      *
