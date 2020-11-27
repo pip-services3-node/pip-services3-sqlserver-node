@@ -11,7 +11,7 @@ import { IdentifiableSqlServerPersistence } from './IdentifiableSqlServerPersist
 /**
  * Abstract persistence component that stores data in SQLServer in JSON or JSONB fields
  * and implements a number of CRUD operations over data items with unique ids.
- * The data items must implement IIdentifiable interface.
+ * The data items must implement [[https://pip-services3-node.github.io/pip-services3-commons-node/interfaces/data.iidentifiable.html IIdentifiable]] interface.
  * 
  * The JSON table has only two fields: id and data.
  * 
