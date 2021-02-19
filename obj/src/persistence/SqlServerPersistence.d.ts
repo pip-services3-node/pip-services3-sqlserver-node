@@ -22,12 +22,12 @@ import { SqlServerConnection } from './SqlServerConnection';
  *
  * - collection:                  (optional) SQLServer collection name
  * - connection(s):
- *   - discovery_key:             (optional) a key to retrieve the connection from [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/connect.idiscovery.html IDiscovery]]
+ *   - discovery_key:             (optional) a key to retrieve the connection from [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html IDiscovery]]
  *   - host:                      host name or IP address
  *   - port:                      port number (default: 27017)
  *   - uri:                       resource URI or connection string with all parameters in it
  * - credential(s):
- *   - store_key:                 (optional) a key to retrieve the credentials from [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/auth.icredentialstore.html ICredentialStore]]
+ *   - store_key:                 (optional) a key to retrieve the credentials from [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/auth.icredentialstore.html ICredentialStore]]
  *   - username:                  (optional) user name
  *   - password:                  (optional) user password
  * - options:
@@ -37,8 +37,8 @@ import { SqlServerConnection } from './SqlServerConnection';
  *
  * ### References ###
  *
- * - <code>\*:logger:\*:\*:1.0</code>           (optional) [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/log.ilogger.html ILogger]] components to pass log messages
- * - <code>\*:discovery:\*:\*:1.0</code>        (optional) [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/connect.idiscovery.html IDiscovery]] services
+ * - <code>\*:logger:\*:\*:1.0</code>           (optional) [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/log.ilogger.html ILogger]] components to pass log messages
+ * - <code>\*:discovery:\*:\*:1.0</code>        (optional) [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html IDiscovery]] services
  * - <code>\*:credential-store:\*:\*:1.0</code> (optional) Credential stores to resolve credentials
  *
  * ### Example ###
@@ -84,7 +84,7 @@ export declare class SqlServerPersistence<T> implements IReferenceable, IUnrefer
     private _references;
     private _opened;
     private _localConnection;
-    private _autoObjects;
+    private _schemaStatements;
     /**
      * The dependency resolver.
      */
@@ -144,10 +144,24 @@ export declare class SqlServerPersistence<T> implements IReferenceable, IUnrefer
      */
     protected ensureIndex(name: string, keys: any, options?: any): void;
     /**
-     * Adds index definition to create it on opening
-     * @param dmlStatement DML statement to autocreate database object
+     * Adds a statement to schema definition.
+     * This is a deprecated method. Use ensureSchema instead.
+     * @param schemaStatement a statement to be added to the schema
      */
-    protected autoCreateObject(dmlStatement: string): void;
+    protected autoCreateObject(schemaStatement: string): void;
+    /**
+     * Adds a statement to schema definition
+     * @param schemaStatement a statement to be added to the schema
+     */
+    protected ensureSchema(schemaStatement: string): void;
+    /**
+     * Clears all auto-created objects
+     */
+    protected clearSchema(): void;
+    /**
+     * Defines database schema via auto create objects or convenience methods.
+     */
+    protected defineSchema(): void;
     /**
      * Converts object value from internal to public format.
      *
@@ -190,7 +204,7 @@ export declare class SqlServerPersistence<T> implements IReferenceable, IUnrefer
      * @param callback 			callback function that receives error or null no errors occured.
      */
     clear(correlationId: string, callback?: (err: any) => void): void;
-    protected autoCreateObjects(correlationId: string, callback: (err: any) => void): void;
+    protected createSchema(correlationId: string, callback: (err: any) => void): void;
     /**
      * Generates a list of column names to use in SQL statements like: "column1,column2,column3"
      * @param values an array with column values or a key-value map

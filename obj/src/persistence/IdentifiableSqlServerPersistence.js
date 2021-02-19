@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.IdentifiableSqlServerPersistence = void 0;
 /** @module persistence */
 /** @hidden */
 const _ = require('lodash');
@@ -8,7 +9,7 @@ const SqlServerPersistence_1 = require("./SqlServerPersistence");
 /**
  * Abstract persistence component that stores data in SQLServer
  * and implements a number of CRUD operations over data items with unique ids.
- * The data items must implement IIdentifiable interface.
+ * The data items must implement [[https://pip-services3-node.github.io/pip-services3-commons-node/interfaces/data.iidentifiable.html IIdentifiable]] interface.
  *
  * In basic scenarios child classes shall only override [[getPageByFilter]],
  * [[getListByFilter]] or [[deleteByFilter]] operations with specific filter function.
@@ -21,12 +22,12 @@ const SqlServerPersistence_1 = require("./SqlServerPersistence");
  *
  * - collection:                  (optional) SQLServer collection name
  * - connection(s):
- *   - discovery_key:             (optional) a key to retrieve the connection from [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/connect.idiscovery.html IDiscovery]]
+ *   - discovery_key:             (optional) a key to retrieve the connection from [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html IDiscovery]]
  *   - host:                      host name or IP address
  *   - port:                      port number (default: 27017)
  *   - uri:                       resource URI or connection string with all parameters in it
  * - credential(s):
- *   - store_key:                 (optional) a key to retrieve the credentials from [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/auth.icredentialstore.html ICredentialStore]]
+ *   - store_key:                 (optional) a key to retrieve the credentials from [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/auth.icredentialstore.html ICredentialStore]]
  *   - username:                  (optional) user name
  *   - password:                  (optional) user password
  * - options:
@@ -36,8 +37,8 @@ const SqlServerPersistence_1 = require("./SqlServerPersistence");
  *
  * ### References ###
  *
- * - <code>\*:logger:\*:\*:1.0</code>           (optional) [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/log.ilogger.html ILogger]] components to pass log messages components to pass log messages
- * - <code>\*:discovery:\*:\*:1.0</code>        (optional) [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/connect.idiscovery.html IDiscovery]] services
+ * - <code>\*:logger:\*:\*:1.0</code>           (optional) [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/log.ilogger.html ILogger]] components to pass log messages components to pass log messages
+ * - <code>\*:discovery:\*:\*:1.0</code>        (optional) [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html IDiscovery]] services
  * - <code>\*:credential-store:\*:\*:1.0</code> (optional) Credential stores to resolve credentials
  *
  * ### Example ###

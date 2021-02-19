@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SqlServerPersistence = void 0;
 /** @module persistence */
 const _ = require('lodash');
 const async = require('async');
@@ -24,12 +25,12 @@ const SqlServerConnection_1 = require("./SqlServerConnection");
  *
  * - collection:                  (optional) SQLServer collection name
  * - connection(s):
- *   - discovery_key:             (optional) a key to retrieve the connection from [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/connect.idiscovery.html IDiscovery]]
+ *   - discovery_key:             (optional) a key to retrieve the connection from [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html IDiscovery]]
  *   - host:                      host name or IP address
  *   - port:                      port number (default: 27017)
  *   - uri:                       resource URI or connection string with all parameters in it
  * - credential(s):
- *   - store_key:                 (optional) a key to retrieve the credentials from [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/auth.icredentialstore.html ICredentialStore]]
+ *   - store_key:                 (optional) a key to retrieve the credentials from [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/auth.icredentialstore.html ICredentialStore]]
  *   - username:                  (optional) user name
  *   - password:                  (optional) user password
  * - options:
@@ -39,8 +40,8 @@ const SqlServerConnection_1 = require("./SqlServerConnection");
  *
  * ### References ###
  *
- * - <code>\*:logger:\*:\*:1.0</code>           (optional) [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/log.ilogger.html ILogger]] components to pass log messages
- * - <code>\*:discovery:\*:\*:1.0</code>        (optional) [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/interfaces/connect.idiscovery.html IDiscovery]] services
+ * - <code>\*:logger:\*:\*:1.0</code>           (optional) [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/log.ilogger.html ILogger]] components to pass log messages
+ * - <code>\*:discovery:\*:\*:1.0</code>        (optional) [[https://pip-services3-node.github.io/pip-services3-components-node/interfaces/connect.idiscovery.html IDiscovery]] services
  * - <code>\*:credential-store:\*:\*:1.0</code> (optional) Credential stores to resolve credentials
  *
  * ### Example ###
@@ -87,7 +88,7 @@ class SqlServerPersistence {
      * @param tableName    (optional) a table name.
      */
     constructor(tableName) {
-        this._autoObjects = [];
+        this._schemaStatements = [];
         /**
          * The dependency resolver.
          */
@@ -174,11 +175,31 @@ class SqlServerPersistence {
         this.autoCreateObject(builder);
     }
     /**
-     * Adds index definition to create it on opening
-     * @param dmlStatement DML statement to autocreate database object
+     * Adds a statement to schema definition.
+     * This is a deprecated method. Use ensureSchema instead.
+     * @param schemaStatement a statement to be added to the schema
      */
-    autoCreateObject(dmlStatement) {
-        this._autoObjects.push(dmlStatement);
+    autoCreateObject(schemaStatement) {
+        this.ensureSchema(schemaStatement);
+    }
+    /**
+     * Adds a statement to schema definition
+     * @param schemaStatement a statement to be added to the schema
+     */
+    ensureSchema(schemaStatement) {
+        this._schemaStatements.push(schemaStatement);
+    }
+    /**
+     * Clears all auto-created objects
+     */
+    clearSchema() {
+        this._schemaStatements = [];
+    }
+    /**
+     * Defines database schema via auto create objects or convenience methods.
+     */
+    defineSchema() {
+        // Todo: override in chile classes
     }
     /**
      * Converts object value from internal to public format.
@@ -244,8 +265,10 @@ class SqlServerPersistence {
                 this._client = this._connection.getConnection();
                 this._databaseName = this._connection.getDatabaseName();
                 this._requestFactory = require('mssql').Request;
+                // Define database schema
+                this.defineSchema();
                 // Recreate objects
-                this.autoCreateObjects(correlationId, (err) => {
+                this.createSchema(correlationId, (err) => {
                     if (err) {
                         this._client == null;
                         err = new pip_services3_commons_node_4.ConnectionException(correlationId, "CONNECT_FAILED", "Connection to sqlserver failed").withCause(err);
@@ -318,8 +341,8 @@ class SqlServerPersistence {
                 callback(err);
         });
     }
-    autoCreateObjects(correlationId, callback) {
-        if (this._autoObjects == null || this._autoObjects.length == 0) {
+    createSchema(correlationId, callback) {
+        if (this._schemaStatements == null || this._schemaStatements.length == 0) {
             callback(null);
             return null;
         }
@@ -337,7 +360,7 @@ class SqlServerPersistence {
             }
             this._logger.debug(correlationId, 'Table ' + this._tableName + ' does not exist. Creating database objects...');
             // Run all DML commands
-            async.eachSeries(this._autoObjects, (dml, callback) => {
+            async.eachSeries(this._schemaStatements, (dml, callback) => {
                 this._client.query(dml, (err, result) => {
                     if (err) {
                         this._logger.error(correlationId, err, 'Failed to autocreate database object');

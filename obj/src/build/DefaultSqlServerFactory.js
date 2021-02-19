@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DefaultSqlServerFactory = void 0;
 /** @module build */
 const pip_services3_components_node_1 = require("pip-services3-components-node");
 const pip_services3_commons_node_1 = require("pip-services3-commons-node");
@@ -7,7 +8,7 @@ const SqlServerConnection_1 = require("../persistence/SqlServerConnection");
 /**
  * Creates SqlServer components by their descriptors.
  *
- * @see [[https://rawgit.com/pip-services-node/pip-services3-components-node/master/doc/api/classes/build.factory.html Factory]]
+ * @see [[https://pip-services3-node.github.io/pip-services3-components-node/classes/build.factory.html Factory]]
  * @see [[SqlServerConnection]]
  */
 class DefaultSqlServerFactory extends pip_services3_components_node_1.Factory {

@@ -1,6 +1,6 @@
 {
     "name": "pip-services3-sqlserver-node",
-    "version": "3.0.1",
+    "version": "3.1.0",
     "author": "Conceptual Vision Consulting LLC",
     "description": "SQLServer components for Pip.Services in Node.js",
     "contributors": [
